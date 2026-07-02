@@ -8,14 +8,14 @@ function App() {
   const [search, setSearch] = useState("");
   
   useEffect(() => {
-    fetch("http://localhost:5000/students")
+    fetch("https://my-project-n7ac.onrender.com/students")
     .then((res) => res.json())
     .then((data) => setStudents(data))
     .catch((err) => console.error(err));
   }, []);
 
   const updateAttendance = (id, status) => {
-    fetch(`http://localhost:5000/students/${id}`, {
+    fetch(`https://my-project-n7ac.onrender.com/students/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
