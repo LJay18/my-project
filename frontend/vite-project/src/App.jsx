@@ -1,38 +1,48 @@
-
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
+import Sidebar from "./components/Sidebar";
+import Calendar from "./components/Calendar";
+import Dashboard from "./components/Dashboard";
+import Reports from "./components/Reports";
+import AttendanceTable from "./components/AttendanceTable";
+import StudentForm from "./components/StudentForm";
+
 function App() {
+  const API = "https://my-project-n7ac.onrender.com";
+
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState("attendance");
   const [search, setSearch] = useState("");
-  
+
+  const [date, setDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
   useEffect(() => {
-    fetch("https://my-project-n7ac.onrender.com/students")
-    .then((res) => res.json())
-    .then((data) => setStudents(data))
-    .catch((err) => console.error(err));
+    fetch(`${API}/students`)
+      .then((res) => res.json())
+      .then((data) => setStudents(data))
+      .catch(console.error);
   }, []);
 
-  const updateAttendance = (id, status) => {
-    fetch(`https://my-project-n7ac.onrender.com/students/${id}`, {
+  const updateAttendance = async (id, status) => {
+    await fetch(`${API}/students/${id}`, {
       method: "PUT",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ status }),
     });
 
-    setStudents((prev) => 
+    setStudents((prev) =>
       prev.map((student) =>
-       student.id === id ? { ...student, status } : student
+        student.id === id
+          ? { ...student, status }
+          : student
       )
     );
   };
-
-  const filteredStudents = students.filter((student) =>
-    student.name.toLowerCase().includes(search.toLowerCase())
-  );
 
   const presentCount = students.filter(
     (s) => s.status === "Present"
@@ -44,108 +54,72 @@ function App() {
 
   return (
     <div className="container">
-      <aside className="sidebar">
-        <h2>Attendance</h2>
 
-        <ul>
-          <li onClick={() => setPage("attendance")}>
-            Students
-          </li>
-
-          <li onClick={() => setPage("dashboard")}>
-            Dashboard
-          </li>
-
-          <li onClick={() => setPage("reports")}>
-            Reports
-          </li>
-        </ul>
-      </aside>
+      <Sidebar
+        page={page}
+        setPage={setPage}
+      />
 
       <main className="main">
 
-        <div clasName="topbar">
+        <div className="topbar">
 
           <input
             type="text"
-            placeholder="Search students..."
+            placeholder="🔍 Search Student..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+          />
+
+          <Calendar
+            date={date}
+            setDate={setDate}
           />
 
         </div>
+
         {page === "attendance" && (
+          <>
+            <StudentForm
+              students={students}
+              setStudents={setStudents}
+            />
 
-          <div className="card">
-            <h2>Students Attendance</h2>
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Present</th>
-                  <th>Absent</th>
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {filteredStudents.map((student) => (
-
-                  <tr key={student.id}>
-                    <td>{student.id}</td>
-                    <td>{student.name}</td>
-
-                    <td>
-                      <input
-                      type="radio"
-                      checked={student.status === "Present"}
-                      onChange={() => updateAttendance(student.id, "Present")}
-                      />
-                    </td>
-                    <td>
-                      <input
-                      type="radio"
-                      checked={student.status === "Absent"}
-                      onChange={() => updateAttendance(student.id, "Absent")}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-
-            </table>
-
-          </div>
+            <AttendanceTable
+              students={students}
+              updateAttendance={updateAttendance}
+              search={search}
+            />
+          </>
         )}
 
         {page === "dashboard" && (
-
-          <div className="card">
-            <h2>Dashboard</h2>
-
-            <h3>Total Students: {students.length}</h3>
-            <h3>Present Today: {presentCount}</h3>
-            <h3>Absent Today: {absentCount}</h3>
-          </div>
+          <Dashboard
+            students={students}
+            presentCount={presentCount}
+            absentCount={absentCount}
+            date={date}
+          />
         )}
 
         {page === "reports" && (
+          <Reports
+            students={students}
+            date={date}
+          />
+        )}
 
+        {page === "settings" && (
           <div className="card">
-
-            <h2>Reports</h2>
-
-            <p>Total Students: {students.length}</p>
-            <p>Present Today: {presentCount}</p>
-            <p>Absent Today: {absentCount}</p>
+            <h1>⚙ Settings</h1>
+            <p>Version 2.0 Settings Page</p>
           </div>
         )}
-      </main>  
+
+      </main>
+
     </div>
   );
 }
