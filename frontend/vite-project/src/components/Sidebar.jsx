@@ -1,16 +1,14 @@
 import React from "react";
 import "./Sidebar.css";
 
-function Sidebar({ page, setPage }) {
+function Sidebar({ page, setPage, menuOpen }) {
   return (
-    <aside className="sidebar">
-
+    <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
       <div className="logo">
         <h2>📚 AttendPro</h2>
       </div>
 
       <ul>
-
         <li
           className={page === "attendance" ? "active" : ""}
           onClick={() => setPage("attendance")}
@@ -36,11 +34,9 @@ function Sidebar({ page, setPage }) {
           className={page === "settings" ? "active" : ""}
           onClick={() => setPage("settings")}
         >
-          ⚙ Settings
+          ⚙️ Settings
         </li>
-
       </ul>
-
     </aside>
   );
 }

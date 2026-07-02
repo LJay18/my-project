@@ -14,6 +14,7 @@ function App() {
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState("attendance");
   const [search, setSearch] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const [date, setDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -58,6 +59,7 @@ function App() {
       <Sidebar
         page={page}
         setPage={setPage}
+        menuOpen={menuOpen}
       />
 
       <main className="main">
