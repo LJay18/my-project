@@ -55,12 +55,14 @@ function App() {
 
   return (
     <div className="container">
-
-      <Sidebar
-        page={page}
-        setPage={setPage}
-        menuOpen={menuOpen}
-      />
+      
+     <div className={menuOpen ? "sidebar open" : "sidebar"}>
+       <Sidebar
+         page={page}
+         setPage={setPage}
+         menuOpen={menuOpen}
+       />
+      </div>
 
       <main className="main">
 
