@@ -114,7 +114,7 @@ function App() {
         {page === "settings" && (
           <div className="card">
             <h1>⚙ Settings</h1>
-            <p>Version 2.0 Settings Page</p>
+            <p>This is the Settings Page</p>
           </div>
         )}
 
