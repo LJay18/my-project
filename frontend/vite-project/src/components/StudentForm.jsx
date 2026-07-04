@@ -56,12 +56,6 @@ function StudentForm({ students, setStudents }) {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <input
-          type="text"
-          placeholder="Student ID / Matric Number"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
-        />
 
         <button type="submit">
           Add Student

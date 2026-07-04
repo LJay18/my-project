@@ -36,20 +36,28 @@ function App() {
       body: JSON.stringify({ status }),
     });
 
-    const deleteStudent = async (id) => {
-  await fetch(`${API}/students/${id}`, {
-    method: "DELETE",
-  });
-
-  setStudents((prev) => prev.filter((student) => student.id !== id));
-};
-
     setStudents((prev) =>
       prev.map((student) =>
         student.id === id
           ? { ...student, status }
           : student
       )
+    );
+  };
+
+  const deleteStudent = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this student?"
+    );
+
+    if (!confirmDelete) return;
+
+    await fetch(`${API}/students/${id}`, {
+      method: "DELETE",
+    });
+
+    setStudents((prev) =>
+      prev.filter((student) => student.id !== id)
     );
   };
 
@@ -63,33 +71,27 @@ function App() {
 
   return (
     <div className="container">
-      
-     <div className={menuOpen ? "sidebar open" : "sidebar"}>
-       <Sidebar
-         page={page}
-         setPage={setPage}
-         menuOpen={menuOpen}
-       />
+      <div className={menuOpen ? "sidebar open" : "sidebar"}>
+        <Sidebar
+          page={page}
+          setPage={setPage}
+          menuOpen={menuOpen}
+        />
       </div>
 
       <main className="main">
-
         <div className="topbar">
-
           <input
             type="text"
             placeholder="🔍 Search Student..."
             value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
+            onChange={(e) => setSearch(e.target.value)}
           />
 
           <Calendar
             date={date}
             setDate={setDate}
           />
-
         </div>
 
         {page === "attendance" && (
@@ -126,13 +128,11 @@ function App() {
 
         {page === "settings" && (
           <div className="card">
-            <h1>⚙ Settings</h1>
+            <h1>⚙️ Settings</h1>
             <p>This is the Settings Page</p>
           </div>
         )}
-
       </main>
-
     </div>
   );
 }
