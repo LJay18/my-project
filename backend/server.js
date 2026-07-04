@@ -16,12 +16,11 @@ app.get("/students", (req, res) => {
 
 // ADD student
 app.post("/students", (req, res) => {
-  const { name, studentId } = req.body;
+  const { name } = req.body;
 
   const newStudent = {
     id: Date.now(),
     name,
-    studentId,
     status: "Absent",
   };
 
