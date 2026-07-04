@@ -3,19 +3,17 @@ import "./StudentForm.css";
 
 function StudentForm({ students, setStudents }) {
   const [name, setName] = useState("");
-  const [studentId, setStudentId] = useState("");
 
   const addStudent = async (e) => {
     e.preventDefault();
 
-    if (!name.trim() || !studentId.trim()) {
-      alert("Please fill in all fields.");
+    if (!name) {
+      alert("Please enter a name.");
       return;
     }
 
     const newStudent = {
       name,
-      studentId,
       status: "Absent",
     };
 
@@ -36,7 +34,6 @@ function StudentForm({ students, setStudents }) {
       setStudents([...students, data]);
 
       setName("");
-      setStudentId("");
     } catch (err) {
       console.log(err);
       alert("Failed to add student.");

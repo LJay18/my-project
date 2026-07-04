@@ -21,7 +21,6 @@ function AttendanceTable({
 
           <tr>
             <th>Student</th>
-            <th>ID</th>
             <th>Present</th>
             <th>Late</th>
             <th>Absent</th>
@@ -47,7 +46,7 @@ function AttendanceTable({
 
               </td>
 
-              <td>{student.id}</td>
+              
 
               <td>
 

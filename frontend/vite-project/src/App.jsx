@@ -81,6 +81,12 @@ function App() {
 
       <main className="main">
         <div className="topbar">
+          <button
+            className="menu-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
           <input
             type="text"
             placeholder="🔍 Search Student..."
