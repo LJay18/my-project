@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./StudentForm.css";
 
-function StudentForm({ setStudents, students }) {
+function StudentForm({ students, setStudents }) {
   const [name, setName] = useState("");
 
   const addStudent = async (e) => {
@@ -31,7 +31,7 @@ function StudentForm({ setStudents, students }) {
 
       const data = await res.json();
 
-      setStudents([...students, data]);
+      setStudents([data, ...students]);
 
       setName("");
     } catch (err) {
