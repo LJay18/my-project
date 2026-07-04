@@ -4,6 +4,7 @@ import "./AttendanceTable.css";
 function AttendanceTable({
   students,
   updateAttendance,
+  deleteStudent,
   search,
 }) {
 
@@ -24,6 +25,7 @@ function AttendanceTable({
             <th>Present</th>
             <th>Late</th>
             <th>Absent</th>
+            <th>Delete</th>
           </tr>
 
         </thead>
@@ -96,6 +98,15 @@ function AttendanceTable({
                   ✖
                 </button>
 
+              </td>
+
+              <td>
+                <button className="delete"
+                  onClick={() => deleteStudent(student.id)} 
+                >
+                  🗑️
+                  
+                </button>
               </td>
 
             </tr>

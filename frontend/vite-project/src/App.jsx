@@ -36,6 +36,14 @@ function App() {
       body: JSON.stringify({ status }),
     });
 
+    const deleteStudent = async (id) => {
+  await fetch(`${API}/students/${id}`, {
+    method: "DELETE",
+  });
+
+  setStudents((prev) => prev.filter((student) => student.id !== id));
+};
+
     setStudents((prev) =>
       prev.map((student) =>
         student.id === id
@@ -94,6 +102,7 @@ function App() {
             <AttendanceTable
               students={students}
               updateAttendance={updateAttendance}
+              deleteStudent={deleteStudent}
               search={search}
             />
           </>

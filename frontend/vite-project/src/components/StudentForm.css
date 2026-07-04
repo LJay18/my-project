@@ -23,15 +23,17 @@
     border-radius:10px;
     border:1px solid #ddd;
     outline:none;
+    font-size:16px;
 }
 
 .student-form button{
     background:#2563eb;
     color:white;
     border:none;
-    padding:14px 22px;
+    padding:14px 24px;
     border-radius:10px;
     cursor:pointer;
+    font-size:16px;
     transition:.3s;
 }
 
