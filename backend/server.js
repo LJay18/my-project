@@ -1,57 +1,96 @@
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// No default students
-let students = [];
+const DATA_FILE = path.join(__dirname, "students.json");
 
-// GET all students
+
+function getStudents() {
+  try {
+    const data = fs.readFileSync(DATA_FILE, "utf8");
+    return JSON.parse(data);
+  } catch (err) {
+    return [];
+  }
+}
+
+
+function saveStudents(students) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(students, null, 2));
+}
+
 app.get("/students", (req, res) => {
-  res.json(students);
+  res.json(getStudents());
 });
 
-// ADD student
+
 app.post("/students", (req, res) => {
   const { name } = req.body;
 
+  if (!name || name.trim() === "") {
+    return res.status(400).json({
+      message: "Student name is required.",
+    });
+  }
+
+  const students = getStudents();
+
   const newStudent = {
     id: Date.now(),
-    name,
+    name: name.trim(),
     status: "Absent",
   };
 
   students.push(newStudent);
 
+  saveStudents(students);
+
   res.status(201).json(newStudent);
 });
 
-// UPDATE attendance
+
 app.put("/students/:id", (req, res) => {
   const id = Number(req.params.id);
   const { status } = req.body;
 
+  const students = getStudents();
+
   const student = students.find((s) => s.id === id);
 
   if (!student) {
-    return res.status(404).json({ message: "Student not found" });
+    return res.status(404).json({
+      message: "Student not found",
+    });
   }
 
   student.status = status;
 
+  saveStudents(students);
+
   res.json(student);
 });
 
-// DELETE student 
+
 app.delete("/students/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  students = students.filter((s) => s.id !== id);
+  const students = getStudents();
 
-  res.json({ message: "Student removed" });
+  const updatedStudents = students.filter(
+    (student) => student.id !== id
+  );
+
+  saveStudents(updatedStudents);
+
+  res.json({
+    message: "Student removed successfully",
+  });
 });
 
 const PORT = process.env.PORT || 5000;
