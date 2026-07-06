@@ -89,5 +89,26 @@ align-items:stretch;
   .sidebar.open {
     left: 0;
   }
+
+  .main {
+    margin-top: 70px;
+    padding: 15px;
+  }
+
+  .menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+  }
+
+  .topbar {
+    margin-top: 10px;
+  }
+
+  .topbar input {
+    width: 100%;
+    font-size: 16px;
+  }
 }
  
